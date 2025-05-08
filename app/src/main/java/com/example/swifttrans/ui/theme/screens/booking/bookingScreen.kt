@@ -12,7 +12,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.swifttrans.data.TripViewModel
+import com.example.swifttrans.models.Trip
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,7 +25,8 @@ fun BookingScreen(navController: NavController) {
     var travelDate by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
     var id by remember { mutableStateOf("") }
-
+    val viewModel: TripViewModel = viewModel()
+    val newTrip = Trip(name, selectedRoute, travelDate, phoneNumber, id)
 
 
     Scaffold(
@@ -78,7 +82,11 @@ fun BookingScreen(navController: NavController) {
             )
 
             Button(
-                onClick = { /* Handle booking logic */ },
+                onClick = {
+                    viewModel.saveTrip(newTrip)
+                    navController.navigate("trips")
+
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp)

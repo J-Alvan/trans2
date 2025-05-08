@@ -130,7 +130,7 @@ fun HomeScreen(navController: NavController) {
                 }
 
                 Card(
-                    modifier = cardModifier.clickable { navController.navigate("register") },
+                    modifier = cardModifier.clickable { navController.navigate("trips") },
                     colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.9f))
                 ) {
                     CenteredCardText("My Trips")

@@ -7,4 +7,6 @@ const val ROUTE_REGISTER = "register"
 const val ROUTE_SPLASH = "splash"
 const val ROUTE_ROUTES = "route"
 const val ROUTE_PROFILE = "profile"
+const val ROUTE_TRIP = "trips"
+
 
