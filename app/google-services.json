@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "91657482367",
+    "project_id": "swifttrans-3e7ee",
+    "storage_bucket": "swifttrans-3e7ee.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91657482367:android:2a077a4099043c88a14f4a",
+        "android_client_info": {
+          "package_name": "com.example.swifttrans"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmjNrTaWVGeGcOpJ0n14l-cZ0exZsTuGw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
