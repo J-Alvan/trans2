@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.firebase.database)
+    implementation(libs.transportation.consumer)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -73,5 +74,10 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx")
+    implementation ("androidx.compose.animation:animation")
+    implementation ("androidx.webkit:webkit:1.8.0")
+    implementation ("com.airbnb.android:lottie-compose:6.1.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("androidx.compose.material:material:1.6.0")
 }
 

@@ -1,143 +1,160 @@
 package com.example.swifttrans.ui.theme.screens.route
 
-import android.content.Intent
-import android.net.Uri
-import androidx.compose.foundation.Image
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.Place
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.swifttrans.R
-import com.example.swifttrans.navigation.ROUTE_BOOKING
-import com.example.swifttrans.navigation.ROUTE_HOME
-import com.example.swifttrans.navigation.ROUTE_PROFILE
-import com.example.swifttrans.navigation.ROUTE_ROUTES
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+
+data class Route(
+    val id: String,
+    val name: String,
+    val pickupPoint: String,
+    val destinationPoint: String,
+    val price: Double,
+    val estimatedTime: String
+)
+
+
+
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RouteScreen(navController: NavController) {
     val context = LocalContext.current
-    var searchQuery by remember { mutableStateOf("") }
-    val items = listOf("Home", "Routes", "Book", "Profile")
-    var selectedItem by rememberSaveable { mutableIntStateOf(0) }
+    val routes = listOf(
+        Route("1", "Nairobi to Kisumu", "Nairobi CBD", "Kisumu Town", 1000.0,"7 hrs"),
+        Route("2", "Kisumu to Kakamega", "Downtown Plaza", "University Campus", 900.0, "5 hrs"),
+        Route("3", "Mombasa to Nairobi", "Harbor Point", "Nairobi CBD", 1200.0, "12hrs"),
+        Route("4", "Nairobi to Meru", "Nairobi CBD", "Summit View", 600.0, "5 hrs"),
+        Route("5", "Nakuru to Kirinyaga", "City Center", "Shopping District", 800.0, "4 hrs")
+    )
 
-
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.background),
-            contentDescription = "Background",
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier.matchParentSize()
-        )
-
-        Column(modifier = Modifier.fillMaxSize()) {
-
-            // Top App Bar
+    Scaffold(
+        topBar = {
             TopAppBar(
-                title = {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            painter = painterResource(id = R.drawable.logo),
-                            contentDescription = "Logo",
-                            modifier = Modifier.size(32.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text("Swift Trans", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                    }
-                },
-                actions = {
-                    TextButton(onClick = {
-                        navController.navigate("booking")
-                    }) {
-                        Text("Book", color = Color.White)
-                    }
-                },
+                title = { Text("Swift Trans Routes") },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF1565C0),
-                    titleContentColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
+        }
+    ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            item {
+                Text(
+                    text = "Select a route to book",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(bottom = 16.dp), textAlign = TextAlign.Center
+                )
+            }
+            items(routes) { route ->
+                RouteCard(
+                    route = route,
+                    onRouteClick = {
+                        // Navigate to booking screen with route ID
+                        navController.navigate("booking/${route.id}")
+                    }
+                )
+            }
+        }
+    }
+}
 
-            // Search Bar
-            OutlinedTextField(
-                value = searchQuery,
-                onValueChange = { searchQuery = it },
-                label = { Text("Search routes") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RouteCard(route: Route, onRouteClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onRouteClick() },
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(
+                text = route.name,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
             )
 
-            // Routes List
-            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                repeat(5) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp)
-                            .clickable {
-                                navController.navigate("booking")
-                            },
-                        colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD)),
-                        shape = RoundedCornerShape(12.dp)
-                    ) {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Text("Route ${it + 1}", fontWeight = FontWeight.Bold)
-                            Text("Nairobi to Kisumu")
-                        }
-                    }
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column {
+                    Text(
+                        text = "Pick-Up:",
+                        fontSize = 14.sp,
+                        color = Color.Gray
+                    )
+                    Text(
+                        text = route.pickupPoint,
+                        fontSize = 16.sp
+                    )
+                }
+
+                Column {
+                    Text(
+                        text = "Drop-off:",
+                        fontSize = 14.sp,
+                        color = Color.Gray
+                    )
+                    Text(
+                        text = route.destinationPoint,
+                        fontSize = 16.sp
+                    )
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height(8.dp))
 
-            // Bottom Navigation Bar
-            NavigationBar(containerColor = Color(0xFF1565C0)) {
-                items.forEachIndexed { index, item ->
-                    NavigationBarItem(
-                        icon = {
-                            when (item) {
-                                "Home" -> Icon(Icons.Default.Home, contentDescription = item)
-                                "Routes" -> Icon(Icons.Default.Place, contentDescription = item)
-                                "Book" -> Icon(Icons.Default.Add, contentDescription = item)
-                                "Profile" -> Icon(Icons.Default.AccountCircle, contentDescription = item)
-                            }
-                        },
-                        label = { Text(item) },
-                        selected = selectedItem == index,
-                        onClick = {
-                            selectedItem = index
-                            when (item) {
-                                "Home" -> navController.navigate(ROUTE_HOME)
-                                "Routes" -> navController.navigate(ROUTE_ROUTES)
-                                "Book" -> navController.navigate(ROUTE_BOOKING)
-                                "Profile" -> navController.navigate(ROUTE_PROFILE)
-                            }
-                        }
-                    )
-                }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Est. time: ${route.estimatedTime}",
+                    fontSize = 14.sp
+                )
+
+                Text(
+                    text = "Ksh${String.format("%.2f", route.price)}",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
         }
     }
