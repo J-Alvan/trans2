@@ -113,7 +113,7 @@ fun BookingScreen(routeId: String, navController: NavController) {
             Text(text = route.name, fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Text(text = "Pick-Up: ${route.pickupPoint}")
             Text(text = "Drop-off: ${route.destinationPoint}")
-            Text(text = "Est. Time: ${route.estimatedTime}")
+            Text(text = "Est. Time: ${route.departureTime}")
             Text(
                 text = "Price: Ksh${String.format("%.2f", route.price)}",
                 fontSize = 18.sp,

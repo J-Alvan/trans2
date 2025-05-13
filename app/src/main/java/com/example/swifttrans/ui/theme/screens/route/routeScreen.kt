@@ -29,7 +29,7 @@ data class Route(
     val pickupPoint: String,
     val destinationPoint: String,
     val price: Double,
-    val estimatedTime: String
+    val departureTime: String
 )
 
 
@@ -41,11 +41,11 @@ data class Route(
 fun RouteScreen(navController: NavController) {
     val context = LocalContext.current
     val routes = listOf(
-        Route("1", "Nairobi to Kisumu", "Nairobi CBD", "Kisumu Town", 1000.0,"7 hrs"),
-        Route("2", "Kisumu to Kakamega", "Downtown Plaza", "University Campus", 900.0, "5 hrs"),
-        Route("3", "Mombasa to Nairobi", "Harbor Point", "Nairobi CBD", 1200.0, "12hrs"),
-        Route("4", "Nairobi to Meru", "Nairobi CBD", "Summit View", 600.0, "5 hrs"),
-        Route("5", "Nakuru to Kirinyaga", "City Center", "Shopping District", 800.0, "4 hrs")
+        Route("1", "Nairobi to Kisumu", "Nairobi CBD", "Kisumu Town", 1000.0,"9.30pm"),
+        Route("2", "Kisumu to Kakamega", "Downtown Plaza", "University Campus", 900.0, "6.45pm"),
+        Route("3", "Mombasa to Nairobi", "Harbor Point", "Nairobi CBD", 1200.0, "12.00pm"),
+        Route("4", "Nairobi to Meru", "Nairobi CBD", "Summit View", 600.0, "8.00am"),
+        Route("5", "Nakuru to Kirinyaga", "City Center", "Shopping District", 800.0, "4.00pm")
     )
 
     Scaffold(
@@ -145,7 +145,7 @@ fun RouteCard(route: Route, onRouteClick: () -> Unit) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Est. time: ${route.estimatedTime}",
+                    text = "Dept. time: ${route.departureTime}",
                     fontSize = 14.sp
                 )
 
